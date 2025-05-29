@@ -1,5 +1,9 @@
-from ui import MainWindow
+from connection import get_connection
+from ui import crear_interfaz
 
 if __name__ == "__main__":
-    app = MainWindow()
-    app.mainloop()
+    conn = get_connection
+    if conn: 
+        print("Conexión exitosa con la base de datos!")
+        crear_interfaz
+    

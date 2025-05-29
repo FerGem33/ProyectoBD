@@ -1,0 +1,77 @@
+CREATE TABLE Actor ( 
+  idActor NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Nombre VARCHAR2(100),
+  Apellido VARCHAR2(100),
+  Edad NUMBER
+);
+
+CREATE TABLE Director (
+  idDirector NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Nombre VARCHAR2(100),
+  Apellido VARCHAR2(100)
+);
+
+CREATE TABLE Genero (
+  idGenero NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Descripcion VARCHAR2(100)
+);
+
+CREATE TABLE Genero_2 (
+  idGenero_2 NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Descripcion VARCHAR2(100)
+);
+
+CREATE TABLE membresia (
+  idMembresia NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Tipo VARCHAR2(100)
+);
+
+CREATE TABLE Sala (
+  idSala NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  Butaca NUMBER
+);
+
+CREATE TABLE Pelicula (
+  idPelicula NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  idGenero NUMBER NOT NULL,
+  idActor NUMBER NOT NULL,
+  idDirector NUMBER NOT NULL,
+  nombre VARCHAR2(100),
+  clasificacion VARCHAR2(10),
+  Duracion NUMBER,
+  FOREIGN KEY (idGenero) REFERENCES Genero(idGenero),
+  FOREIGN KEY (idActor) REFERENCES Actor(idActor),
+  FOREIGN KEY (idDirector) REFERENCES Director(idDirector)
+);
+
+CREATE TABLE Funcion (
+  idFuncion NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  idPelicula NUMBER NOT NULL,
+  idSala NUMBER NOT NULL,
+  Horario DATE, 
+  Fecha DATE,
+  FOREIGN KEY (idPelicula) REFERENCES Pelicula(idPelicula),
+  FOREIGN KEY (idSala) REFERENCES Sala(idSala)
+);
+
+CREATE TABLE Cliente (
+  idCliente NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  idGenero_2 NUMBER NOT NULL,
+  idMembresia NUMBER NOT NULL,
+  nombre VARCHAR2(100),
+  paterno VARCHAR2(100),
+  materno VARCHAR2(100),
+  edad NUMBER,
+  telefono VARCHAR2(20),
+  correo VARCHAR2(100),
+  FOREIGN KEY (idGenero_2) REFERENCES Genero_2(idGenero_2),
+  FOREIGN KEY (idMembresia) REFERENCES membresia(idMembresia)
+);
+
+CREATE TABLE Funcion_has_Cliente (
+  idCliente NUMBER NOT NULL,
+  idFuncion NUMBER NOT NULL,
+  PRIMARY KEY(idCliente, idFuncion),
+  FOREIGN KEY (idCliente) REFERENCES Cliente(idCliente),
+  FOREIGN KEY (idFuncion) REFERENCES Funcion(idFuncion)
+);
